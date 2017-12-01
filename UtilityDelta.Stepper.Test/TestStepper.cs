@@ -171,5 +171,63 @@ namespace UtilityDelta.Stepper.Test
             Assert.Throws<Exception>(() => stepper.SetSpeed(-1));
             Assert.Throws<Exception>(() => stepper.SetSpeed(0));
         }
+
+
+        [Fact]
+        public void TestNbrSteps()
+        {
+            var pin1 = new Mock<IGpioPin>();
+            var pin2 = new Mock<IGpioPin>();
+
+            var stepper = new StepperMotor(200, pin1.Object, pin2.Object);
+            
+            stepper.Move(5, Direction.Clockwise);
+
+            pin1.VerifySet(x => x.PinValue = It.IsAny<bool>(), Times.Exactly(5));
+            pin2.VerifySet(x => x.PinValue = It.IsAny<bool>(), Times.Exactly(5));
+
+            stepper.Move(15, Direction.Anticlockwise);
+
+            pin1.VerifySet(x => x.PinValue = It.IsAny<bool>(), Times.Exactly(20));
+            pin2.VerifySet(x => x.PinValue = It.IsAny<bool>(), Times.Exactly(20));
+        }
+
+        [Fact]
+        public void TestInitialPosition()
+        {
+            var pin1 = new Mock<IGpioPin>();
+            var pin2 = new Mock<IGpioPin>();
+            var signal = new Mock<IGpioPin>();
+
+            var stepper = new StepperMotor(200, pin1.Object, pin2.Object);
+
+            var result1 = stepper.SetInitialPosition(Direction.Anticlockwise, signal.Object, 10);
+            Assert.False(result1);
+            signal.VerifyGet(x=>x.PinValue, Times.Exactly(10));
+            pin1.VerifySet(x => x.PinValue = It.IsAny<bool>(), Times.Exactly(10));
+
+            signal.Setup(x => x.PinValue).Returns(true);
+
+            var result2 = stepper.SetInitialPosition(Direction.Clockwise, signal.Object, 100);
+            Assert.True(result2);
+
+            signal.VerifyGet(x => x.PinValue, Times.Exactly(11));
+            pin1.VerifySet(x => x.PinValue = It.IsAny<bool>(), Times.Exactly(10));
+        }
+
+        [Fact]
+        public void TestDispose()
+        {
+            var pin1 = new Mock<IGpioPin>();
+            var pin2 = new Mock<IGpioPin>();
+
+            using (var stepper = new StepperMotor(200, pin1.Object, pin2.Object))
+            {
+                
+            }
+
+            pin1.VerifySet(x => x.PinValue = false, Times.Once);
+            pin2.VerifySet(x => x.PinValue = false, Times.Once);
+        }
     }
 }

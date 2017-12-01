@@ -81,6 +81,21 @@ namespace UtilityDelta.Stepper
             _stepDelayInMilliseconds = 60L * 1000L / _nbrSteps / revolutionsPerMinute;
         }
 
+        public bool SetInitialPosition(Direction direction, IGpioPin signalPin, int maxStepsToTake)
+        {
+            for (var i = 0; i < maxStepsToTake; i++)
+            {
+                if (signalPin.PinValue)
+                {
+                    return true;
+                }
+
+                Move(1, direction);
+            }
+
+            return false;
+        }
+
         public void Move(int steps, Direction direction)
         {
             if (!_timer.IsRunning)
@@ -115,6 +130,15 @@ namespace UtilityDelta.Stepper
                 _position = _positions.Length - 1;
             for (var i = 0; i < _pins.Length; i++)
                 _pins[i].PinValue = _positions[_position][i];
+        }
+
+        public void Dispose()
+        {
+            //Turn off the stepper motor
+            foreach (var pin in _pins)
+            {
+                pin.PinValue = false;
+            }
         }
     }
 }
