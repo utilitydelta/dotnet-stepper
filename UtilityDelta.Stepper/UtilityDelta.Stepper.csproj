@@ -6,12 +6,13 @@
     <Description>.NET Standard library for working 2, 4 and 5 pin stepper motors.</Description>
     <Company>UtilityDelta</Company>
     <Authors>Tyson Brown</Authors>
-    <PackageProjectUrl>https://github.com/utilitydelta/dotnet-stepper</PackageProjectUrl>
-    <Version>2.1.0</Version>
+    <PackageProjectUrl>https://github.com/utilitydelta-io/dotnet-stepper</PackageProjectUrl>
+    <Version>2.2.0</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Tyson Brown</Copyright>
-    <PackageLicenseUrl>https://github.com/utilitydelta/dotnet-stepper/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://github.com/utilitydelta/dotnet-stepper/raw/master/UtilityDelta.Stepper/icons8-stepper-motor-40.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/utilitydelta-io/dotnet-stepper/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://github.com/utilitydelta-io/dotnet-stepper/raw/master/UtilityDelta.Stepper/icons8-stepper-motor-40.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/utilitydelta-io/dotnet-stepper</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
